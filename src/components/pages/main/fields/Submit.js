@@ -65,7 +65,7 @@ const Submit = ({
       card.cover && attachmentList.push({ cover: card.cover })
       card.link && attachmentList.push({ url: card.link })
 
-      submitAll(attachmentList).then(onSubmitSuccess())
+      submitAll(attachmentList).then( onSubmitSuccess ).catch( e => console.error( e ));
       
     })
   }
