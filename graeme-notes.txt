@@ -1,0 +1,1 @@
+ env REACT_APP_TRELLO_API_KEY=e9d4b0061c2ac9a0529240b09d88521c npm run-script build
