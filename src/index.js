@@ -42,6 +42,7 @@ const restLink = new RestLink({
             "cover.jpg"
           )
         } catch(e) {
+          console.error( e );
           formData.append("url", cover)
         }
       }
