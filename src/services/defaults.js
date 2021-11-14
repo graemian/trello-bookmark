@@ -1,5 +1,5 @@
 import { isChromeExtension, getTabInfo } from '../services/browser'
-import { pathStrToArray, getDefaultPoster } from '../services/utils'
+import { pathStrToArray, getDefaultPoster, loadOpenGraph } from '../services/utils'
 import { GET_LOCATIONS } from '../services/queries'
 
 export const defaultData = {
@@ -99,7 +99,27 @@ export default {
         } else {      
           updateCard(client, tabInfo)
         }
-      })
+
+        loadOpenGraph().then( result => {
+
+          console.log("Result is " + result);
+
+          if (result.success) {
+
+            if (result.ogImage && result.ogImage.url)
+              tabInfo.cover = result.ogImage.url;
+
+            if (result.ogTitle)
+              tabInfo.title = result.ogTitle;
+
+            updateCard(client, tabInfo);
+
+          }
+
+        });
+
+      });
+
     } else {
       updateCard(client, {
         title: document.title,

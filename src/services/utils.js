@@ -154,3 +154,68 @@ export const getDefaultPoster = url => {
   }
   return ''
 }
+
+let pageSourcePromiseResolve;
+
+const pageSourcePromise = new Promise((resolve, reject) => {
+
+  pageSourcePromiseResolve = resolve;
+
+});
+
+// https://stackoverflow.com/a/11696154/1420157
+chrome.runtime.onMessage.addListener(function(request, sender) {
+  if (request.action == "getSource") {
+
+    console.log("Got page source:" + request.source);
+
+    pageSourcePromiseResolve( request.source );
+
+  }
+});
+
+/* global chrome */
+
+function onWindowLoad() {
+
+  console.log("onWindowLoad");
+
+  chrome.tabs.executeScript(null, {
+    file: "getPagesSource.js"
+  }, function() {
+    // If you try and inject into an extensions page or the webstore/NTP you'll get an error
+    if (chrome.runtime.lastError) {
+      console.log( chrome.runtime.lastError.message );
+    }
+  });
+
+}
+
+window.onload = onWindowLoad;
+
+const ogs = require("open-graph-scraper-lite");
+
+export function loadOpenGraph() {
+
+  return pageSourcePromise.then( pageSource => {
+
+    console.log("loadOpenGraph with HTML: " + pageSource);
+
+    const options = {html: pageSource};
+
+    return ogs(options).then(data => {
+
+      const {error, result, response} = data;
+
+      console.log('error:', error);  // This returns true or false. True if there was an error. The error itself is inside the results object.
+      console.log('result:', result); // This contains all of the Open Graph results
+      console.log('response:', response); // This contains the HTML of page
+
+      return result;
+
+    });
+
+  });
+
+}
+

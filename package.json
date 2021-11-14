@@ -3,7 +3,7 @@
   "version": "2.4.2",
   "private": false,
   "dependencies": {
-    "@craco/craco": "5.2.4",
+    "@craco/craco": "^5.2.4",
     "antd": "3.20.7",
     "apollo-cache-inmemory": "1.6.2",
     "apollo-cache-instorage": "0.2.4",
@@ -16,6 +16,7 @@
     "graphql-anywhere": "4.2.4",
     "graphql-tag": "2.10.1",
     "moment": "2.24.0",
+    "open-graph-scraper-lite": "^1.1.1",
     "qs": "6.7.0",
     "react": "16.8.6",
     "react-apollo": "2.5.8",
