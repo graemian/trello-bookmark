@@ -16,7 +16,8 @@
     ],
     "permissions": [
         "tabs",
-        "https://api.trello.com/"
+        "https://api.trello.com/",
+        "<all_urls>"
     ],
     "web_accessible_resources": [
         "index.html"
