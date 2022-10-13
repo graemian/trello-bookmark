@@ -81,6 +81,67 @@ const updateCard = (client, card) => {
   }
 }
 
+// https://stackoverflow.com/a/18101796/1420157
+function URLUtils(url, baseURL) {
+  var m = String(url).replace(/^\s+|\s+$/g, "").match(/^([^:\/?#]+:)?(?:\/\/(?:([^:@\/?#]*)(?::([^:@\/?#]*))?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
+  if (!m) {
+    throw new RangeError();
+  }
+  var protocol = m[1] || "";
+  var username = m[2] || "";
+  var password = m[3] || "";
+  var host = m[4] || "";
+  var hostname = m[5] || "";
+  var port = m[6] || "";
+  var pathname = m[7] || "";
+  var search = m[8] || "";
+  var hash = m[9] || "";
+  if (baseURL !== undefined) {
+    var base = new URLUtils(baseURL);
+    var flag = protocol === "" && host === "" && username === "";
+    if (flag && pathname === "" && search === "") {
+      search = base.search;
+    }
+    if (flag && pathname.charAt(0) !== "/") {
+      pathname = (pathname !== "" ? (((base.host !== "" || base.username !== "") && base.pathname === "" ? "/" : "") + base.pathname.slice(0, base.pathname.lastIndexOf("/") + 1) + pathname) : base.pathname);
+    }
+    // dot segments removal
+    var output = [];
+    pathname.replace(/^(\.\.?(\/|$))+/, "")
+        .replace(/\/(\.(\/|$))+/g, "/")
+        .replace(/\/\.\.$/, "/../")
+        .replace(/\/?[^\/]*/g, function (p) {
+          if (p === "/..") {
+            output.pop();
+          } else {
+            output.push(p);
+          }
+        });
+    pathname = output.join("").replace(/^\//, pathname.charAt(0) === "/" ? "/" : "");
+    if (flag) {
+      port = base.port;
+      hostname = base.hostname;
+      host = base.host;
+      password = base.password;
+      username = base.username;
+    }
+    if (protocol === "") {
+      protocol = base.protocol;
+    }
+  }
+  this.origin = protocol + (protocol !== "" || host !== "" ? "//" : "") + host;
+  this.href = protocol + (protocol !== "" || host !== "" ? "//" : "") + (username !== "" ? username + (password !== "" ? ":" + password : "") + "@" : "") + host + pathname + search + hash;
+  this.protocol = protocol;
+  this.username = username;
+  this.password = password;
+  this.host = host;
+  this.hostname = hostname;
+  this.port = port;
+  this.pathname = pathname;
+  this.search = search;
+  this.hash = hash;
+}
+
 export default {
   init: client => {
     const storedData = localStorage.getItem("apollo-cache-persist")
@@ -106,13 +167,46 @@ export default {
 
           if (result.success) {
 
-            if (result.ogImage && result.ogImage.url)
-              tabInfo.cover = result.ogImage.url;
-
             if (result.ogTitle)
               tabInfo.title = result.ogTitle;
 
-            updateCard(client, tabInfo);
+            if (result.ogImage && result.ogImage.url) {
+
+              const url = result.ogImage.url;
+
+              var r = new RegExp('^(?:[a-z+]+:)?//', 'i');
+
+              if (r.test( url )) {
+
+                console.log("Full URL");
+
+                tabInfo.cover = url;
+
+                updateCard(client, tabInfo);
+
+              } else {
+
+                console.log("Partial URL");
+
+                getTabInfo(i => {
+
+                  if (url.startsWith("/")) {
+
+                    const urlObj = new URL( i.link );
+
+                    tabInfo.cover = urlObj.origin + url;
+
+                  } else
+
+                    tabInfo.cover = new URLUtils(url, i.link).href;
+
+                  updateCard(client, tabInfo);
+
+                });
+
+              }
+
+            }
 
           }
 
