@@ -11,7 +11,7 @@
     "apollo-client": "2.6.3",
     "apollo-link": "1.2.12",
     "apollo-link-rest": "0.7.3",
-    "craco-antd": "1.11.0",
+    "craco-antd": "^1.19.0",
     "graphql": "14.4.2",
     "graphql-anywhere": "4.2.4",
     "graphql-tag": "2.10.1",
@@ -49,5 +49,11 @@
     "chrome-webstore-upload": "0.2.2",
     "dotenv": "8.0.0",
     "zip-folder": "1.0.0"
+  },
+  "overrides": {
+    "open-graph-scraper-lite": {
+      "cheerio": "1.0.0-rc.10",
+      "htmlparser2": "6.1.0"
+    }
   }
 }
