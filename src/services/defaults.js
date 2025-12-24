@@ -170,6 +170,9 @@ export default {
             if (result.ogTitle)
               tabInfo.title = result.ogTitle;
 
+            if (result.ogDescription)
+              tabInfo.description = result.ogDescription;
+
             if (result.ogImage && result.ogImage.url) {
 
               const url = result.ogImage.url;
