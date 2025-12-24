@@ -1,5 +1,11 @@
  env REACT_APP_TRELLO_API_KEY=e9d4b0061c2ac9a0529240b09d88521c npm run-script build
 
-2025:
+2025, old power-up:
 
     env NODE_OPTIONS=--openssl-legacy-provider SKIP_PREFLIGHT_CHECK=true REACT_APP_TRELLO_API_KEY=e9d4b0061c2ac9a0529240b09d88521c npm run-script build
+
+New power-up
+
+    https://trello.com/power-ups/694bdd76fa894ef0d0a1e606/edit/api-key
+
+    env NODE_OPTIONS=--openssl-legacy-provider SKIP_PREFLIGHT_CHECK=true REACT_APP_TRELLO_API_KEY=76c47b0d075dfb226240e6ecfb0f25dd npm run-script build
