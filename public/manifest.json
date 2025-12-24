@@ -1,5 +1,6 @@
 {
     "manifest_version": 3,
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4fV8YPfCZoF71cv4yDS9fIr0U+kLNp+Xxsv2m5RyaxNB5JvB1s1oEyNGCnlb6vRZLizgerCiZqsPkxE+8ocvUkZoXBl/qU2kh/YDHJs9K2ca+Hn4Gmhyeud1KOfxoDG8/cwgVmnG6BW98SQxyJ/1rEWw2dobbMWkrTsQeOJfb9PQu7TPtLaD86/CmGhlyNGAUTEWz6b0zHNjDxf7vaaiRo7pODspoUabGAKub0mXPw4nXaXV9MN/dEmmT0JJg9flHVSPS5mRL2++5DVHgBqiAgxRj6dWHfs5c3TkROW7kRUMCNa7zDG9AX4wG2vpdOYSt5s81pNFJ5VkAl/xH25uPwIDAQAB",
     "name": "Trello Bookmark",
     "description": "Store your bookmarks as Trello Cards",
     "version": "2.4.4",
